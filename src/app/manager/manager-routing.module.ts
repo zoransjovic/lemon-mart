@@ -6,6 +6,9 @@ import { ReceiptLookupComponent } from './receipt-lookup/receipt-lookup.componen
 import { ManagerComponent } from './manager.component'
 import { AuthGuardService } from '../auth/auth-guard.service'
 import { Role } from '../auth/role.enum'
+import { UserTableComponent } from './user-table/user-table.component'
+import { ViewUserComponent } from '../user/view-user/view-user.component'
+import { UserResolve } from '../user/user/user.resolve'
 
 const routes: Routes = [
   {
@@ -24,7 +27,23 @@ const routes: Routes = [
       {
         path: 'users',
         component: UserManagementComponent,
+        children: [
+          {
+            path: '',
+            component: UserTableComponent,
+            outlet: 'master',
+          },
+          {
+            path: 'user',
+            component: ViewUserComponent,
+            outlet: 'detail',
+            resolve: {
+              user: UserResolve,
+            },
+          },
+        ],
         canActivate: [AuthGuardService],
+        canActivateChild: [AuthGuardService],
         data: {
           expectedRole: Role.Manager,
         },

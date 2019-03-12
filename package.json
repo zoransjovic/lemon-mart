@@ -12,6 +12,9 @@
     "test:prod": "npm test -- --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "mock:standalone": "docker run -p 3000:3000 -t duluca/lemon-mart-swagger-server",
+    "test:coverage": "ng test --browsers ChromiumNoSandbox --watch=false --code-coverage",
+    "posttest:coverage": "http-server -c-1 -o -p 9875 ./coverage",
     "predocker:build": "npm run build -- --prod --output-path dist && npm test -- --watch=false && npm run e2e",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
@@ -51,6 +54,7 @@
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
     "rxjs": "~6.3.3",
+    "ts-enum-util": "^3.1.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
